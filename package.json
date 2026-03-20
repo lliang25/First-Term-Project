@@ -1,14 +1,17 @@
 {
-  "name": "cmpe131-starter",
+  "name": "school-task-tracker",
   "version": "1.0.0",
   "private": true,
-  "description": "CMPE 131 minimal starter app (UI -> API -> SQLite)",
+  "description": "an app for students to track their assignments",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
+    "node": "^25.8.0",
     "sqlite3": "^5.1.7"
   }
 }

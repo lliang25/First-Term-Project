@@ -280,7 +280,22 @@ app.post("/api/assignments", authenticate, (req, res) => {
         `;
         db.run(sql, [class_id, name, description || "", deadline || null, new Date().toISOString()], function (err) {
             if (err) return res.status(500).json({ error: err.message });
-            res.status(201).json({ id: this.lastID });
+
+            const assignmentID = this.lastID;
+
+            if (deadline) {
+                const reminderTime = new Date(new Date(deadline).getTime() - 24 * 60 * 60 * 1000);
+
+                db.run(`INSERT INTO reminders (assignment_id, reminder_time) VALUES (?, ?)`, 
+                    [assignmentID, reminderTime.toISOString()],
+                    function (err) {
+                        if (err) return res.status(500).json({ error: err.message });
+                        res.status(201).json({ assignmentID: assignmentID, reminderID: this.lastID});
+                    }
+                )
+            } else {
+                res.status(201).json({ assignmentID: assignmentID });
+            }
         })
     })
 });
@@ -335,10 +350,11 @@ app.patch("/api/assignments/:id", authenticate, (req, res) => {
     if (Number.isNaN(assignment_id)) {
         return res.status(400).json({ error: "Invalid assignment ID" });
     }
-    const { class_id, name, description, location, deadline, is_done, has_notification} = req.body || {};
+
+    const { class_id, name, description, location, deadline, is_done, has_notification } = req.body || {};
 
     // verify assignment belongs to user
-    db.get(`SELECT a.assignment_id, a.class_id
+    db.get(`SELECT a.assignment_id, a.class_id, a.deadline, a.has_notification
             FROM assignments a
             JOIN classes c ON a.class_id = c.class_id
             WHERE a.assignment_id = ? AND c.user_id = ?
@@ -376,6 +392,36 @@ app.patch("/api/assignments/:id", authenticate, (req, res) => {
             params.push(has_notification ? 1 : 0)
         }
 
+        const syncReminderAndRespond = () => {
+            const finalDeadline = deadline !== undefined ? deadline : assignmentRow.deadline;
+            const finalHasNotification = has_notification !== undefined
+                ? (has_notification ? 1 : 0)
+                : assignmentRow.has_notification
+
+            if (finalDeadline && finalHasNotification) {
+                const reminderTime = new Date(new Date(finalDeadline).getTime() - 24 * 60 * 60 * 1000);
+
+                db.run(
+                    `INSERT INTO reminders (assignment_id, reminder_time, is_sent)
+                    VALUES (?, ?, 0)
+                    ON CONFLICT(assignment_id)
+                    DO UPDATE SET
+                        reminder_time = excluded.reminder_time,
+                        is_sent = 0`,
+                    [assignment_id, reminderTime.toISOString()],
+                    function (err) {
+                        if (err) return res.status(500).json({ error: err.message });
+                        res.json({ ok: true })
+                    }
+                );
+            } else {
+                db.run(`DELETE FROM reminders WHERE assignment_id = ?`, [assignment_id], function (err) {
+                    if (err) return res.status(500).json({ error: err.message });
+                    res.json({ ok: true })
+                });
+            }
+        }
+
         const finishUpdate = () => {
             if (updates.length === 0) {
                 return res.status(400).json({ error: "No fields to update" });
@@ -389,7 +435,8 @@ app.patch("/api/assignments/:id", authenticate, (req, res) => {
             db.run(sql, params, function (err) {
                 if (err) return res.status(500).json({ error: err.message });
                 if (this.changes === 0) return res.status(404).json({ error: "Not found" });
-                res.json({ ok: true })
+
+                syncReminderAndRespond();
             });
         };
 

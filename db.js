@@ -44,7 +44,6 @@ function openDb() {
                 reminder_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 assignment_id INTEGER NOT NULL,
                 reminder_time TEXT NOT NULL,
-                reminder_type TEXT,
                 is_sent INTEGER NOT NULL DEFAULT 0,
                 FOREIGN KEY (assignment_id) REFERENCES classes(assignment_id) ON DELETE CASCADE
             )

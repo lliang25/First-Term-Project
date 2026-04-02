@@ -1,14 +1,18 @@
 const express = require("express");
 const path = require("path");
-const { openDb } = require("./db").default;
+const { openDb } = require("./db");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer")
+const cron = require("node-cron")
 
 const app = express();
 const db = openDb();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
+createTransporter();
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -487,3 +491,82 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Starter app running: http://localhost:${PORT}`);
 });
+
+let transporter;
+
+async function createTransporter() {
+    const testAccount = await nodemailer.createTestAccount();
+
+    transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        auth: {
+            user: testAccount.user,
+            pass: testAccount.pass
+        }
+    })
+
+    console.log("Ethereal account created:");
+    console.log("User:", testAccount.user);
+    console.log("Pass:", testAccount.pass);
+}
+
+cron.schedule("* * * * *", () => {
+    const now = new Date().toISOString()
+
+    const sql = `
+        SELECT
+            r.reminder_id,
+            r.reminder_time,
+            a.name as assignment_name,
+            a.deadline,
+            s.email,
+            s.username
+        FROM reminders r
+        JOIN assignments a ON r.assignment_id = a.assignment_id
+        JOIN classes c on a.class_id = c.class_id
+        JOIN students s on c.user_id = s.user_id
+        WHERE r.is_sent = 0 AND r.reminder_time <= ? AND s.notifications_enabled = 1
+    `;
+
+    db.all(sql, [now], async (err, rows) => {
+        if (err) {
+            console.error("Error:", err.message);
+            return;
+        }
+
+        for (const row of rows) {
+            try {
+                const formattedDeadline = new Date(row.deadline).toLocaleString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit"
+                });
+
+                const info = await transporter.sendMail({
+                    from: '"School Task Tracker" <no-reply@test.com>',
+                    to: row.email,
+                    subject: "Assignment Reminder",
+                    text: `Reminder: Your assignment "${row.assignment_name}" is due on ${formattedDeadline}.`
+                });
+
+                console.log("Test Email URL:", nodemailer.getTestMessageUrl(info));
+
+                db.run("UPDATE reminders SET is_sent = 1 WHERE reminder_id = ?",
+                    [row.reminder_id],
+                    (err) => {
+                        if (err) {
+                            console.error("Error:", err.message);
+                            return;
+                        }
+                    }
+                )
+            } catch (err) {
+                console.error("Error:", err.message);
+                return;
+            }
+        }
+    })
+})

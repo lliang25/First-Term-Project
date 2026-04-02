@@ -45,11 +45,11 @@ function openDb() {
                 assignment_id INTEGER NOT NULL,
                 reminder_time TEXT NOT NULL,
                 is_sent INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (assignment_id) REFERENCES classes(assignment_id) ON DELETE CASCADE
+                FOREIGN KEY (assignment_id) REFERENCES assignments(assignment_id) ON DELETE CASCADE
             )
         `)
     });
     return db;
 }
 
-export default { openDb };
+module.exports = { openDb };

@@ -4,6 +4,7 @@
   "private": true,
   "description": "an app for students to track their assignments",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node server.js"
   },
@@ -12,6 +13,8 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.3",
     "node": "^25.8.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.4",
     "sqlite3": "^5.1.7"
   }
 }

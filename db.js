@@ -42,7 +42,7 @@ function openDb() {
         db.run(`
             CREATE TABLE IF NOT EXISTS reminders (
                 reminder_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                assignment_id INTEGER NOT NULL,
+                assignment_id INTEGER NOT NULL UNIQUE,
                 reminder_time TEXT NOT NULL,
                 is_sent INTEGER NOT NULL DEFAULT 0,
                 FOREIGN KEY (assignment_id) REFERENCES assignments(assignment_id) ON DELETE CASCADE

@@ -1,0 +1,169 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+.page {
+  padding: 50px 60px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.top-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+
+button {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.card {
+  background: rgba(30, 41, 59, 0.7);
+  padding: 25px;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.list-item {
+  background: rgba(255,255,255,0.05);
+  padding: 18px 20px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.row-actions button {
+  margin-left: 8px;
+}
+
+
+input, select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.react-calendar {
+  background: rgba(30,41,59,0.8);
+  border-radius: 18px;
+  padding: 15px;
+  color: white;
+  border: none;
+}
+
+
+.tile-item {
+  font-size: 11px;
+  padding: 4px;
+  border-radius: 6px;
+  color: white;
+  transition: 0.2s;
+}
+
+.tile-item:hover {
+  transform: scale(1.05);
+}
+
+
+.center-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+
+.auth-card {
+  background: rgba(30,41,59,0.8);
+  padding: 40px;
+  border-radius: 20px;
+  width: 350px;
+  backdrop-filter: blur(10px);
+}
+
+
+.setting-row {
+  display: flex;
+  align-items: center;       
+  justify-content: space-between;
+
+  background: rgba(255,255,255,0.05);
+  padding: 16px 20px;
+  border-radius: 14px;
+
+  margin-top: 12px;
+}
+
+.setting-label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.setting-toggle {
+  width: 54px;
+  height: 30px;
+  appearance: none;
+  background: #475569;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+
+.setting-toggle:checked {
+  background: #3b82f6;
+}
+
+
+.setting-toggle::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: 0.25s;
+}
+
+
+.setting-toggle:checked::before {
+  transform: translateX(24px);
+}

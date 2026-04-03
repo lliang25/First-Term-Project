@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 const { openDb } = require("./db");
 const bcrypt = require("bcrypt")
@@ -7,6 +8,7 @@ const nodemailer = require("nodemailer")
 const cron = require("node-cron")
 
 const app = express();
+app.use(cors());
 const db = openDb();
 
 app.use(express.json());
@@ -480,7 +482,7 @@ app.delete("/api/assignments/:id", authenticate, (req, res) => {
                 FROM classes
                 WHERE user_id = ?
             )
-    `, [assignment_id, user_id], (err) => {
+    `, [assignment_id, user_id], function(err) {
         if (err) return res.status(500).json({ error: err.message });
         if (this.changes === 0) return res.status(404).json({ error: "Not found" });
         res.json({ ok: true })

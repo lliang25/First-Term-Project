@@ -13,6 +13,6 @@ An assignment tracker for students
 
 3. Open in a browser:
 
-   - http://localhost:3000
+   - http://localhost:3001
 
 A link to the dummy reminder emails will be in the console

@@ -27,6 +27,12 @@ app.post("/api/students", async (req, res) => {
     if (!username || !email || !password) {
         return res.status(400).json({ error: "Missing required fields" });
     }
+    if (password.length < 12) {
+        return res.status(400).json({ error: "Password must be at least 12 characters long"});
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: "Invalid email" });
+    }
     try {
         const password_hash = await bcrypt.hash(password, 10);
 

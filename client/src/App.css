@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #0f172a;
-  color: white;
+  background: #0b1120;
+  color: #cbd5e1;
 }
 
 .page {
@@ -15,6 +15,7 @@ h1 {
   font-size: 42px;
   margin-bottom: 30px;
   font-weight: 600;
+  color: #e2e8f0;
 }
 
 .top-bar {
@@ -23,13 +24,12 @@ h1 {
   margin-bottom: 25px;
 }
 
-
 button {
-  background: #3b82f6;
-  border: 2px solid #0f172a;
+  border: 1px solid #2a3446;
   padding: 12px 18px;
   border-radius: 12px;
-  color: white;
+  background-color: #121826;
+  color: #cbd5e1;
   font-size: 14px;
   cursor: pointer;
   transition: 0.2s ease;
@@ -37,63 +37,79 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  opacity: 0.9;
+  background-color: #1a2233;
 }
 
 .card {
-  background: rgba(30, 41, 59, 0.7);
+  background: #121826;
   padding: 25px;
   border-radius: 18px;
-  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: 15px;
+  border: 1px solid #2a3446;
 }
 
-
 .list-item {
-  background: rgba(255,255,255,0.05);
+  background: #161e2e;
   padding: 18px 20px;
   border-radius: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #cbd5e1;
 }
-
 
 .row-actions button {
   margin-left: 8px;
 }
 
-
-input, select {
+input,
+select {
   padding: 12px 14px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid #2a3446;
   margin-top: 10px;
   font-size: 15px;
   width: 100%;
+  background: #0b1120;
+  color: #cbd5e1;
+}
+
+input::placeholder {
+  color: #7c8aa0;
 }
 
 .react-calendar {
-  background: rgba(30,41,59,0.8);
+  background: #121826;
   border-radius: 18px;
   padding: 15px;
-  color: white;
-  border: none;
+  color: #cbd5e1;
+  border: 1px solid #2a3446;
 }
 
+.react-calendar button:hover {
+  transform: none;
+}
+
+.react-calendar__month-view__weekdays {
+  margin-top: 15px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.tile-content {
+  height: 50px;
+  overflow-y: scroll;
+}
 
 .tile-item {
   font-size: 11px;
   padding: 4px;
   border-radius: 6px;
-  color: white;
+  color: #cbd5e1;
+  background: #1a2233;
   transition: 0.2s;
-}
-
-.tile-item:hover {
-  transform: scale(1.05);
 }
 
 
@@ -104,25 +120,26 @@ input, select {
   height: 80vh;
 }
 
-
 .auth-card {
-  background: rgba(30,41,59,0.8);
+  background: #121826;
   padding: 40px;
   border-radius: 20px;
   width: 350px;
-  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #2a3446;
 }
-
 
 .setting-row {
   display: flex;
-  align-items: center;       
+  align-items: center;
   justify-content: space-between;
-
-  background: rgba(255,255,255,0.05);
+  background: #161e2e;
   padding: 16px 20px;
   border-radius: 14px;
-
   margin-top: 12px;
 }
 
@@ -131,38 +148,35 @@ input, select {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #cbd5e1;
 }
-
 
 .setting-toggle {
   width: 54px;
   height: 30px;
   appearance: none;
-  background: #475569;
+  background: #3a4558;
   border-radius: 20px;
   position: relative;
   cursor: pointer;
   transition: 0.25s;
 }
 
-
 .setting-toggle:checked {
-  background: #3b82f6;
+  background: #1d4ed8;
 }
-
 
 .setting-toggle::before {
   content: "";
   position: absolute;
   width: 24px;
   height: 24px;
-  background: white;
+  background: #e2e8f0;
   border-radius: 50%;
   top: 3px;
   left: 3px;
   transition: 0.25s;
 }
-
 
 .setting-toggle:checked::before {
   transform: translateX(24px);

@@ -53,31 +53,31 @@ function Login() {
   return (
   <div className="center-card">
     <div className="auth-card">
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Assignment Tracker
+      <h1 style={{ textAlign: "center"}}>
+        School Task Tracker
       </h1>
 
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+      <h2 style={{ textAlign: "center"}}>
         {isSignup ? "Create Account" : "Login"}
       </h2>
 
-      <input
+      <input style={({ width: "80%", border: "1px solid rgb(164, 175, 198)" })}
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <input
+      <input style={({ width: "80%", border: "1px solid rgb(164, 175, 198)" })}
         type="password"
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={submit} style={{ width: "100%", marginTop: "15px" }}>
+      <button onClick={submit} style={{ width: "70%", marginTop: "10px"}}>
         {isSignup ? "Sign Up" : "Login"}
       </button>
 
       <p
-        style={{ cursor: "pointer", marginTop: "15px", textAlign: "center" }}
+        style={{ cursor: "pointer", textAlign: "center" }}
         onClick={() => setIsSignup(!isSignup)}
       >
         {isSignup

@@ -26,19 +26,10 @@ function Home() {
     load();
   };
 
-  const getReminderTime = (deadline) => {
-    const d = new Date(deadline);
-    d.setDate(d.getDate() - 1);
-    return d.toISOString();
-  };
-
   const toggleNotification = async (a) => {
     try {
       await apiPatch(`/api/assignments/${a.assignment_id}`, {
-        has_notification: !a.has_notification,
-        reminder_time: !a.has_notification
-          ? getReminderTime(a.deadline)
-          : null
+        has_notification: !a.has_notification
       });
       load();
     } catch (e) {
@@ -83,8 +74,17 @@ function Home() {
             );
 
             return (
-              <div className="tile-content">
-                {day.slice(0,2).map(a => (
+              <div
+                className="tile-content"
+                style={{
+                  maxHeight: "60px",
+                  overflowY: "scroll",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "2px"
+                }}
+              >
+                {day.map(a => (
                   <div
                     key={a.assignment_id}
                     className="tile-item"
@@ -95,7 +95,7 @@ function Home() {
                       alignItems: "center",
                       padding: "2px 4px",
                       fontSize: "10px",
-                      textDecoration: a.is_done ? "line-through" : "none"
+                      textDecoration: a.is_done ? "line-through" : "none",
                     }}
                   >
                     <span onClick={() => navigate(`/edit/${a.assignment_id}`)}>

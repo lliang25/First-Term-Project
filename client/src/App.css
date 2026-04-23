@@ -99,8 +99,10 @@ input::placeholder {
 }
 
 .tile-content {
-  height: 50px;
+  min-height: 60px;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .tile-item {

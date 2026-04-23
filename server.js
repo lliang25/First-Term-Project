@@ -272,7 +272,7 @@ app.delete("/api/classes/:id", authenticate, (req, res) => {
 // Add assignment
 app.post("/api/assignments", authenticate, (req, res) => {
     const user_id = req.user.user_id
-    const { class_id, name, description, deadline } = req.body || {};
+    const { class_id, name, description, deadline, has_notification } = req.body || {};
     if (!class_id || !name) {
         return res.status(400).json({ error: "Missing required fields" });
     }
@@ -295,7 +295,7 @@ app.post("/api/assignments", authenticate, (req, res) => {
 
             const assignmentID = this.lastID;
 
-            if (deadline) {
+            if (deadline && has_notification) {
                 const reminderTime = new Date(new Date(deadline).getTime() - 24 * 60 * 60 * 1000);
 
                 db.run(`INSERT INTO reminders (assignment_id, reminder_time) VALUES (?, ?)`, 
@@ -534,7 +534,7 @@ cron.schedule("* * * * *", () => {
         JOIN assignments a ON r.assignment_id = a.assignment_id
         JOIN classes c on a.class_id = c.class_id
         JOIN students s on c.user_id = s.user_id
-        WHERE r.is_sent = 0 AND r.reminder_time <= ? AND s.notifications_enabled = 1
+        WHERE r.is_sent = 0 AND r.reminder_time <= ? AND s.notifications_enabled = 1 AND a.has_notification = 1
     `;
 
     db.all(sql, [now], async (err, rows) => {

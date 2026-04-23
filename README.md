@@ -7,7 +7,7 @@ An assignment tracker for students
 2. In this folder:
 
    ```bash
-   npm install
+   npm install && npm install --prefix client
    npm start
    ```
 

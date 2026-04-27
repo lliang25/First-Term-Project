@@ -1,6 +1,6 @@
 import BackHome from "./BackHome";
 import { useEffect, useState } from "react";
-import { apiGet, apiPost, apiPatch, apiDelete } from "./api";
+import { apiGet, apiPost, apiDelete } from "./api";
 
 function Classes() {
   const [classes, setClasses] = useState([]);

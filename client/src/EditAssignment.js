@@ -36,7 +36,7 @@ function EditAssignment() {
         has_notification: hasNotification
       });
 
-      navigate("/");
+      navigate("/home");
     } catch (e) {
       console.log("ERROR:", e);
 

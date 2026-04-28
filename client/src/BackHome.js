@@ -5,7 +5,7 @@ function BackHome() {
 
   return (
     <button
-      onClick={() => navigate("/")}
+      onClick={() => navigate("/home")}
       style={{
         marginBottom: "20px",
         background: "#64748b"

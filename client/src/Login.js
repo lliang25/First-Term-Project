@@ -44,7 +44,7 @@ function Login() {
       
       localStorage.setItem("token", data.token);
 
-      navigate("/");
+      navigate("/home");
     } catch (e) {
       setErr(e?.error || "Something went wrong");
     }

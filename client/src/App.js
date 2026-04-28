@@ -19,7 +19,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route path="/" element={<Private><Home /></Private>} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/home" element={<Private><Home /></Private>} />
         <Route path="/classes" element={<Private><Classes /></Private>} />
         <Route path="/add" element={<Private><AddAssignment /></Private>} />
         <Route path="/edit/:id" element={<Private><EditAssignment /></Private>} />

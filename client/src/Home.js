@@ -78,7 +78,7 @@ function Home() {
                 className="tile-content"
                 style={{
                   maxHeight: "60px",
-                  overflowY: "scroll",
+                  overflowY: "auto",
                   display: "flex",
                   flexDirection: "column",
                   gap: "2px"

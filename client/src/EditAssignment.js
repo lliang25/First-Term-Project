@@ -15,7 +15,7 @@ function EditAssignment() {
 
   useEffect(() => {
     apiGet("/api/assignments").then(data => {
-      const a = data.find(x => x.assignment_id === id);
+      const a = data.find(x => String(x.assignment_id) === id);
       if (a) {
         setName(a.name);
         setDeadline(a.deadline ? a.deadline.slice(0,16) : "");;
